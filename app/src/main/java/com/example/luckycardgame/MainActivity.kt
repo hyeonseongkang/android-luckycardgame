@@ -2,6 +2,7 @@ package com.example.luckycardgame
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.luckycardgame.model.Card
 
 class MainActivity : AppCompatActivity() {
 

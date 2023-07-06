@@ -1,4 +1,4 @@
-package com.example.luckycardgame
+package com.example.luckycardgame.model
 
 /*
 확장성: 기존 코드를 수정할 필요 없이 새로운 타입을 추가할 수 있다. 새로운 동물 카드 타입이 필요한 경우, CardType을 상속하여 새로운 클래스를 정의하여 사용하면 된다.

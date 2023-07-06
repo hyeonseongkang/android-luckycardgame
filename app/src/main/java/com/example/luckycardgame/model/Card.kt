@@ -1,4 +1,4 @@
-package com.example.luckycardgame
+package com.example.luckycardgame.model
 
 import java.util.Random
 
