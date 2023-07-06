@@ -7,17 +7,8 @@ class Card(val type: String, var number: Int) {
         private val random = Random()
     }
 
-    constructor() : this(
-        when (random.nextInt(3)) {
-            0 -> DogCard
-            1 -> CatCard
-            else -> CowCard
-        },
-        random.nextInt(12) + 1
-    )
-
     fun getCardTypeShape(): String {
-        return type.shape
+        return type
     }
 
     fun getCardNumber(): Int {
