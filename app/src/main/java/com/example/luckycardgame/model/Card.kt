@@ -2,7 +2,7 @@ package com.example.luckycardgame.model
 
 import java.util.Random
 
-class Card(val type: CardType, var number: Int) {
+class Card(val type: String, var number: Int) {
     companion object {
         private val random = Random()
     }
