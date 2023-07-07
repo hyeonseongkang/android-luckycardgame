@@ -8,6 +8,7 @@ import com.example.luckycardgame.model.Table
 import com.example.luckycardgame.viewmodel.LuckyBoardGameViewModel
 import org.junit.*
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
@@ -34,7 +35,7 @@ class LuckyBoardGameViewModelTest {
     }
 
     @Test
-    fun testMakeCards() {
+    fun givenParticipantCount_whenMakeCards_thenCorrectCardCount() {
         val participant3 = viewModel.makeCards(3)
         val participant4 = viewModel.makeCards(4)
         val participant5 = viewModel.makeCards(5)
@@ -45,7 +46,7 @@ class LuckyBoardGameViewModelTest {
     }
 
     @Test
-    fun testPickCards() {
+    fun givenParticipantCount_whenPickCards_thenCorrectCardCountsForParticipantsAndTable() {
         val participantCount = 3
         viewModel.pickCards(participantCount)
 
@@ -56,11 +57,10 @@ class LuckyBoardGameViewModelTest {
         assertEquals(8, participants?.get(1)?.retrieveParticipantCards()?.size)
         assertEquals(8, participants?.get(2)?.retrieveParticipantCards()?.size)
         assertEquals(9, table?.retrieveTableCards()?.size)
-
     }
 
     @Test
-    fun testSortedCards() {
+    fun givenParticipantsAndTable_whenSortingCards_thenParticipantCardsAndTableCardsAreSorted() {
         val participantCount = 3
         viewModel.pickCards(participantCount)
 
@@ -86,7 +86,7 @@ class LuckyBoardGameViewModelTest {
     }
 
     @Test
-    fun testHasThreeOfSameNumber() {
+    fun givenParticipants_whenCheckingForThreeOfSameNumber_thenAtLeastOneParticipantHasThreeMatchingCards() {
         val participantCount = 5
         viewModel.pickCards(participantCount)
 
@@ -99,36 +99,33 @@ class LuckyBoardGameViewModelTest {
     }
 
     @Test
-    fun testHasThreeOfSameNumberForLowestCard() {
-        val participantCount = 3
-        viewModel.pickCards(participantCount)
+    fun givenParticipantsWithMatchingCardsAndTableCards_whenCheckingForThreeMatchingCards_thenTrue() {
+        // 픽 카드 수를 5로 설정하여 테스트
+        viewModel.pickCards(5)
 
         val participants = viewModel.participantsLiveData.value
-        val participantA = participants?.get(0)
+        val table = viewModel.tableLiveData.value
 
-        // 특정 참가자의 카드 중 가장 낮은 숫자 선택
-        val lowestNumber = participantA?.retrieveParticipantCards()?.minByOrNull { it.number }?.number
+        // 1번 참가자와 2번 참가자의 카드 중에서 각각 가장 낮은 숫자를 선택
+        val lowestNumberParticipant1 = participants?.get(0)?.retrieveParticipantCards()?.minByOrNull { it.number }?.number ?: -1
+        val lowestNumberParticipant2 = participants?.get(1)?.retrieveParticipantCards()?.minByOrNull { it.number }?.number ?: -1
 
-        // 선택한 숫자와 같은 숫자를 가진 카드 개수 확인
-        val countOfSameNumberCards = participantA?.retrieveParticipantCards()?.count { it.number == lowestNumber }
+        // 테이블의 카드 중 아무거나 선택
+        val randomTableCard = table?.retrieveTableCards()?.randomOrNull()
 
-        val hasThreeOfSameNumber = countOfSameNumberCards == 3
-        assertTrue(hasThreeOfSameNumber)
+        // 선택한 숫자와 바닥 카드의 숫자가 모두 같은지 확인
+        val hasThreeMatchingCards = lowestNumberParticipant1 == lowestNumberParticipant2 && lowestNumberParticipant1 == randomTableCard?.number
+
+        assertTrue(hasThreeMatchingCards)
     }
 
     @Test
-    fun testCardCountsByType() {
-        val cards = viewModel.makeCards(5)
+    fun givenCards_whenCheckingForCardCountsByType_thenNoCardWithNumber12ExistsForEachType() {
+        val cards = viewModel.makeCards(3)
 
-        val typeCounts = mutableMapOf<String, Int>()
-        for (card in cards) {
-            val count = typeCounts.getOrDefault(card.type, 0)
-            typeCounts[card.type] = count + 1
-        }
-
-        assertEquals(12, typeCounts["🐶"])
-        assertEquals(12, typeCounts["🐱"])
-        assertEquals(12, typeCounts["🐮"])
+        assertFalse(cards.any { it.type == "🐶" && it.number == 12 })
+        assertFalse(cards.any { it.type == "🐱" && it.number == 12 })
+        assertFalse(cards.any { it.type == "🐮" && it.number == 12 })
     }
 
 }
