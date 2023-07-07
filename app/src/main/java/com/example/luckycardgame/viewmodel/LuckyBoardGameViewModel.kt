@@ -72,7 +72,7 @@ class LuckyBoardGameViewModel : ViewModel() {
 
             for (j in startIndex until endIndex) {
                 participant.addCard(pickedCards[j])
-                Log.d(TAG, "${j}")
+//                Log.d(TAG, "${j}")
             }
             participants.add(participant)
         }

@@ -1,21 +1,21 @@
 package com.example.luckycardgame.model
 
 class Table {
-    private val cards: MutableList<Card> = mutableListOf()
+    private val tableCards: MutableList<Card> = mutableListOf()
 
     fun addCard(card: Card) {
-        cards.add(card)
+        tableCards.add(card)
     }
 
     fun removeCard(card: Card) {
-        cards.remove(card)
+        tableCards.remove(card)
     }
 
-    fun getCards(): MutableList<Card> {
-        return cards
+    fun retrieveTableCards(): MutableList<Card> {
+        return tableCards
     }
 
     fun clear() {
-        cards.clear()
+        tableCards.clear()
     }
 }
