@@ -15,6 +15,10 @@ class Table {
         return tableCards
     }
 
+    fun sortCardsByNumber() {
+        tableCards.sortBy { it.number }
+    }
+
     fun clear() {
         tableCards.clear()
     }

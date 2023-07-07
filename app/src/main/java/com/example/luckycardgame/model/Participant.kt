@@ -14,4 +14,13 @@ class Participant {
     fun retrieveParticipantCards(): MutableList<Card> {
         return participantCards
     }
+
+    fun sortCardsByNumber() {
+        participantCards.sortBy { it.number }
+    }
+
+    fun hasThreeOfSameNumber(): Boolean {
+        val cardGroups = participantCards.groupBy { it.type }
+        return cardGroups.any { it.value.size >= 3 }
+    }
 }
