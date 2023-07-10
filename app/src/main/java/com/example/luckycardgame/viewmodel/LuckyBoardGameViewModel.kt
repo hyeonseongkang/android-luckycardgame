@@ -29,27 +29,26 @@ class LuckyBoardGameViewModel : ViewModel() {
         for (i in 1..12) {
 
             if (participantCount == 3 && i == 12) continue
-            val card = Card("🐶", i)
+            val card = Card("🐶", i, false)
             cardList.add(card)
         }
 
         // 카드 인스턴스화 및 cardList에 저장 (13-24, type: 🐱)
         for (i in 1..12) {
             if (participantCount == 3 && i == 12) continue
-            val card = Card("🐱", i)
+            val card = Card("🐱", i, false)
             cardList.add(card)
         }
 
         // 카드 인스턴스화 및 cardList에 저장 (25-36, type: 🐮)
         for (i in 1..12) {
             if (participantCount == 3 && i == 12) continue
-            val card = Card("🐮", i)
+            val card = Card("🐮", i, false)
             cardList.add(card)
         }
 
         // cardList 랜덤하게 섞기
         cardList.shuffle()
-
         return cardList
     }
 
@@ -73,12 +72,14 @@ class LuckyBoardGameViewModel : ViewModel() {
             for (j in startIndex until endIndex) {
                 participant.addCard(pickedCards[j])
             }
+            participant.sortCardsByNumber()
             participants.add(participant)
         }
 
         for (i in participantCount * cardsPerParticipant until pickedCards.size) {
             table.addCard(pickedCards[i])
         }
+        table.sortCardsByNumber()
 
         _participantsLiveData.value = participants.toList()
         _tableLiveData.value = table

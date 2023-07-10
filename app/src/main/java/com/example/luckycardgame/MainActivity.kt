@@ -159,11 +159,11 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 when(count) {
-                    0 -> binding.rvA.adapter = CardAdapter(participant.retrieveParticipantCards(), true, false)
-                    1 -> binding.rvB.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
-                    2 -> binding.rvC.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
-                    3 -> binding.rvD.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
-                    4 -> binding.rvE.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
+                    0 -> binding.rvA.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
+                    1 -> binding.rvB.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
+                    2 -> binding.rvC.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
+                    3 -> binding.rvD.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
+                    4 -> binding.rvE.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
                 }
 
                 for (card in participant.retrieveParticipantCards()) {
@@ -177,9 +177,9 @@ class MainActivity : AppCompatActivity() {
                 it ->
             var count = 0
             if (it.retrieveTableCards().size == 6) {
-                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), false, false)
+                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), false)
             } else {
-                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), false, true)
+                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), true)
             }
 
             for (card in it.retrieveTableCards()) {
