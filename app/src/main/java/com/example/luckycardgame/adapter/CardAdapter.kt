@@ -39,6 +39,18 @@ class CardAdapter(var cardList: MutableList<Card>, val table: Boolean): Recycler
 
             val currentCard = cardList[position]
 
+            var count: Int = 0
+
+            for (card in cardList) {
+                if (card.getCardFront()) {
+                    count++
+                }
+            }
+
+            if (count >= 3) {
+                return@setOnClickListener
+            }
+
             Log.d("로그", position.toString())
             if (position == 0 || position == cardList.size - 1) {
                 Log.d("로그", position.toString() + " 111")
