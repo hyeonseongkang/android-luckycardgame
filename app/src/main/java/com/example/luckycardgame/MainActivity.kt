@@ -10,10 +10,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.luckycardgame.adapter.CardAdapter
 import com.example.luckycardgame.databinding.ActivityMainBinding
+import com.example.luckycardgame.`interface`.ResultListener
 import com.example.luckycardgame.model.Card
 import com.example.luckycardgame.viewmodel.LuckyBoardGameViewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ResultListener {
 
     companion object {
         const val TAG: String = "로그"
@@ -28,12 +29,48 @@ class MainActivity : AppCompatActivity() {
 
     private val binding get() = mBinding!!
 
+    fun <T> List<T>.combinations(): List<Pair<T, T>> {
+        val combinations = mutableListOf<Pair<T, T>>()
+        for (i in indices) {
+            for (j in (i + 1) until size) {
+                combinations.add(Pair(this[i], this[j]))
+            }
+        }
+        return combinations
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // resultMap 예시
+//        val resultMap = mutableMapOf(
+//            "A" to listOf(1, 1, 1),
+//            "B" to listOf(3, 3, 3),
+//            "C" to listOf(2, 2, 2),
+//            "D" to listOf(8, 8, 8)
+//        )
+//
+//        val entries = resultMap.entries.toList()
+//
+//        for ((entry1, entry2) in entries.combinations()) {
+//            val (owner1, cards1) = entry1
+//            val (owner2, cards2) = entry2
+//
+//            // 카드 비교 및 결과 출력
+//            if (cards1.all { it == cards2[0] }) {
+//                Log.d("로그", "Cards of $owner1 are all the same as cards of $owner2")
+//            } else {
+//                Log.d("로그", "Cards of $owner1 are all the same as cards of $owner2")
+//            }
+//
+//            // 카드 값 출력
+//            Log.d("로그", "Cards of $owner1: ${cards1.joinToString(", ")}")
+//            Log.d("로그", "Cards of $owner2: ${cards2.joinToString(", ")}")
+//        }
 
         init()
         initCardList()
@@ -150,6 +187,7 @@ class MainActivity : AppCompatActivity() {
     fun observer() {
         luckyBoardGameViewModel.participantsLiveData.observe(this) {
                 it ->
+            luckyBoardGameViewModel.initResultData()
             var count = 0
             var cardCount: Int
             for (participant in it) {
@@ -159,39 +197,71 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 when(count) {
-                    0 -> binding.rvA.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
-                    1 -> binding.rvB.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
-                    2 -> binding.rvC.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
-                    3 -> binding.rvD.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
-                    4 -> binding.rvE.adapter = CardAdapter(participant.retrieveParticipantCards(), false)
+                    0 -> binding.rvA.adapter = CardAdapter("A", participant.retrieveParticipantCards(), false, luckyBoardGameViewModel)
+                    1 -> binding.rvB.adapter = CardAdapter("B", participant.retrieveParticipantCards(), false, luckyBoardGameViewModel)
+                    2 -> binding.rvC.adapter = CardAdapter("C", participant.retrieveParticipantCards(), false, luckyBoardGameViewModel)
+                    3 -> binding.rvD.adapter = CardAdapter("D", participant.retrieveParticipantCards(), false, luckyBoardGameViewModel)
+                    4 -> binding.rvE.adapter = CardAdapter("E", participant.retrieveParticipantCards(), false, luckyBoardGameViewModel)
                 }
 
-                for (card in participant.retrieveParticipantCards()) {
-                    Log.d(TAG, "Main $count - ${card.getCardNumber()} ${card.getCardTypeShape()}")
-                }
                 count++
             }
         }
 
         luckyBoardGameViewModel.tableLiveData.observe(this) {
                 it ->
-            var count = 0
             if (it.retrieveTableCards().size == 6) {
-                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), false)
+                binding.rvTable.adapter = CardAdapter("T", it.retrieveTableCards(), false, luckyBoardGameViewModel)
             } else {
-                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), true)
+                binding.rvTable.adapter = CardAdapter("T", it.retrieveTableCards(), true, luckyBoardGameViewModel)
             }
+        }
 
-            for (card in it.retrieveTableCards()) {
-                Log.d(TAG, "Main $count - ${card.getCardNumber()} ${card.getCardTypeShape()}")
-                count++
+        luckyBoardGameViewModel.selectedCards.observe(this) { resultData ->
+            resultData.forEach { resultMap ->
+               // Log.d("로그", "hello!@!@")
+                for ((owner, cards) in resultMap) {
+
+                    Log.d("로그", "Owner: $owner")
+                    cards.forEach { card ->
+                        Log.d("로그", "3장 카드의 값이 같으므로 결과화면으로 ㄱㄱ Card: ${card.getCardNumber()} ${card.getCardTypeShape()}")
+                    }
+                    val firstCardNumber = cards.firstOrNull()?.getCardNumber()
+//                    if (cards.all { it.getCardNumber() == firstCardNumber }) {
+//                        clearAdapter(owner)
+//                        cards.forEach { card ->
+//                            Log.d("로그", "3장 카드의 값이 같으므로 결과화면으로 ㄱㄱ Card: ${card.getCardNumber()} ${card.getCardTypeShape()}")
+//                        }
+//                    }
+                }
             }
-            count = 0
+        }
+    }
+
+    private fun clearAdapter(owner: String) {
+        when(owner) {
+            "A" ->
+                // 결과 Adapter 생성
+                Log.d("로그", "A Clear 후 뷰 재생성")
+            "B"->
+                Log.d("로그", "B Clear 후 뷰 재생성")
+            "C"->
+                Log.d("로그", "C Clear 후 뷰 재생성")
+            "D"->
+                Log.d("로그", "D Clear 후 뷰 재생성")
+            "E"->
+                Log.d("로그", "E Clear 후 뷰 재생성")
         }
     }
 
     override fun onDestroy() {
         mBinding = null
         super.onDestroy()
+    }
+
+    override fun onResultDataSelected(selectedCards: List<Card>) {
+        for (card in selectedCards) {
+            Log.d("로그", card.getCardTypeShape() + " " + card.getCardFront() + " " + card.getCardNumber())
+        }
     }
 }

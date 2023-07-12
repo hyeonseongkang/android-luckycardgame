@@ -52,4 +52,7 @@ dependencies {
 
     // test
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
+
+    // combination
+    implementation "org.jetbrains.kotlinx:kotlinx-collections-immutable:0.3.4"
 }
