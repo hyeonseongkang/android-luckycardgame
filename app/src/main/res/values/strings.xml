@@ -8,4 +8,6 @@
     <string name="three_user">3명</string>
     <string name="four_user">4명</string>
     <string name="five_user">5명</string>
+    <string name="game_end">게임결과</string>
+    <string name="restart">재시작</string>
 </resources>

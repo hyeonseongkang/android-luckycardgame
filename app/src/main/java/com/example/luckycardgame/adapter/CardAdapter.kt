@@ -18,7 +18,7 @@ import com.example.luckycardgame.R
 import com.example.luckycardgame.model.Card
 import com.example.luckycardgame.viewmodel.LuckyBoardGameViewModel
 
-class CardAdapter(var owner: String, var cardList: MutableList<Card>, val table: Boolean, private val viewModel: LuckyBoardGameViewModel): RecyclerView.Adapter<CardAdapter.CustomViewHolder>() {
+class CardAdapter(var owner: String, var cardList: MutableList<Card>, val table: Boolean, private val viewModel: LuckyBoardGameViewModel, val result: Boolean): RecyclerView.Adapter<CardAdapter.CustomViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -34,6 +34,9 @@ class CardAdapter(var owner: String, var cardList: MutableList<Card>, val table:
 
         // 아이템 뷰의 클릭 이벤트 처리
         viewHolder.itemView.setOnClickListener {
+            if (result) {
+                return@setOnClickListener
+            }
             val position = viewHolder.adapterPosition
             // 클릭된 아이템의 위치(position)을 사용하여 필요한 작업 수행
 
@@ -83,12 +86,13 @@ class CardAdapter(var owner: String, var cardList: MutableList<Card>, val table:
                 }
             }
 
-            Log.d("로그", count.toString())
             if (count == 3) {
                 val selectedCards = cardList.filter { it.getCardFront() }
+                viewModel.completeParticipants++
                 if (selectedCards.distinctBy { it.getCardNumber() }.size == 1) {
-                    // 3장의 카드가 앞면으로 뒤집힌 상태에서 같은 숫자인지 확인
-                    cardList.clear()
+                    viewModel.setResultData(owner, selectedCards)
+                    viewModel.showResultScreen(owner, selectedCards)
+                    cardList.removeAll { !it.getCardFront() }
                     notifyDataSetChanged()
                 }
                 viewModel.setResultData(owner, selectedCards)

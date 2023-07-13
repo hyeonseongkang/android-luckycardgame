@@ -15,11 +15,16 @@ class LuckyBoardGameViewModel : ViewModel() {
     }
 
     var participans: Int = 0
+    var completeParticipants: Int = 0
 
     private val _resultData = MutableLiveData<MutableList<Map<String, List<Card>>>>()
+    private val _showResultData = MutableLiveData<Map<String, List<Card>>>()
+
 
     val selectedCards: MutableLiveData<MutableList<Map<String, List<Card>>>>
         get() = _resultData
+
+    val showResultData: LiveData<Map<String, List<Card>>> get() = _showResultData
 
     val tempResultData: MutableList<Map<String, List<Card>>> = mutableListOf()
 
@@ -29,17 +34,18 @@ class LuckyBoardGameViewModel : ViewModel() {
 
     private val _participantsLiveData: MutableLiveData<List<Participant>> = MutableLiveData()
     private val _tableLiveData: MutableLiveData<Table> = MutableLiveData()
-    private val _replayLiveData: MutableLiveData<Boolean> = MutableLiveData()
+    private val _restartLiveData: MutableLiveData<Boolean> = MutableLiveData()
 
     val participantsLiveData: LiveData<List<Participant>> get() = _participantsLiveData
     val tableLiveData: LiveData<Table> get() = _tableLiveData
-    val replayLiveData: LiveData<Boolean> get() = _replayLiveData
+    val restartLiveData: LiveData<Boolean> get() = _restartLiveData
 
     private val participants = mutableListOf<Participant>()
     private val table = Table()
 
     fun viewModelInit() {
         participans = 0
+        completeParticipants = 0
         _resultData.value?.clear()
         participants.clear()
         table.clear()
@@ -53,7 +59,6 @@ class LuckyBoardGameViewModel : ViewModel() {
 
         // 카드 인스턴스화 및 cardList에 저장 (1-12, type: 🐶)
         for (i in 1..12) {
-
             if (participantCount == 3 && i == 12) continue
             val card = Card("🐶", i, false)
             cardList.add(card)
@@ -141,7 +146,7 @@ class LuckyBoardGameViewModel : ViewModel() {
 
         tempResultData.add(map)
         val entries = tempResultData.map { it.entries.first() }.toList()
-        if (tempResultData.size == participans) {
+        if (completeParticipants == participans) {
             for ((entry1, entry2) in entries.combinations()) {
                 val (owner1, cards1) = entry1
                 val (owner2, cards2) = entry2
@@ -171,9 +176,9 @@ class LuckyBoardGameViewModel : ViewModel() {
             currentData.addAll(uniqueResultData)
             _resultData.value = currentData
             if (_resultData.value.isNullOrEmpty()) {
-
-                _replayLiveData.value = true
+                _restartLiveData.value = true
             }
+            completeParticipants = 0
             tempResultData.clear()
         }
     }
@@ -182,5 +187,9 @@ class LuckyBoardGameViewModel : ViewModel() {
         val currentData = _resultData.value ?: return
         val newData = currentData.filterNot { it.containsKey(owner) }
         _resultData.value = newData.toMutableList()
+    }
+
+    fun showResultScreen(owner: String, cards: List<Card>) {
+        _showResultData.value = mapOf(owner to cards)
     }
 }
