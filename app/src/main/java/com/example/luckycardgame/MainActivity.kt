@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
     fun initCardList() {
         for (i in 0 until 12) {
-            //  cardList.add(Card())
+            cardList.add(Card())
         }
 
     }
