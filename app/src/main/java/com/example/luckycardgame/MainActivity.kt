@@ -133,7 +133,7 @@ class MainActivity : AppCompatActivity() {
 
     fun initCardList() {
         for (i in 0 until 12) {
-            //  cardList.add(Card())
+            cardList.add(Card())
         }
 
     }
