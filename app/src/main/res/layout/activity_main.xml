@@ -7,35 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:orientation="vertical"
-    android:paddingTop="15dp"
-    android:paddingStart="15dp"
-    android:paddingEnd="15dp"
-    android:paddingBottom="25dp">
+    android:padding="15dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_yellow"
-        android:layout_gravity="center"
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleButton"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
-        card_view:cardCornerRadius="10dp"
-        app:cardBackgroundColor="@color/yellow"
-        app:cardElevation="0dp"/>
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_three_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/three_user"
+            android:background="@null"
+            style="?attr/materialButtonOutlinedStyle"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_four_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/four_user"
+            android:background="@null"
+            style="?attr/materialButtonOutlinedStyle"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_five_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/five_user"
+            android:background="@null"
+            style="?attr/materialButtonOutlinedStyle"/>
+
+    </com.google.android.material.button.MaterialButtonToggleGroup>
 
     <LinearLayout
         android:id="@+id/ll_cv_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/cv_yellow">
+        android:layout_marginTop="15dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_A"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="80dp"
             card_view:cardCornerRadius="10dp"
-            android:layout_weight="1"
             app:cardBackgroundColor="@color/light_gray"
             app:cardElevation="0dp">
 
@@ -49,18 +69,26 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_A"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_B"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="80dp"
             card_view:cardCornerRadius="10dp"
-            android:layout_weight="1"
             app:cardBackgroundColor="@color/light_gray"
             app:cardElevation="0dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,18 +100,26 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_B"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_C"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="80dp"
             card_view:cardCornerRadius="10dp"
-            android:layout_weight="1"
             app:cardBackgroundColor="@color/light_gray"
             app:cardElevation="0dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,18 +131,27 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_C"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_D"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="80dp"
             card_view:cardCornerRadius="10dp"
-            android:layout_weight="1"
             app:cardBackgroundColor="@color/light_gray"
             app:cardElevation="0dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -118,18 +163,26 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_D"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_E"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="80dp"
             card_view:cardCornerRadius="10dp"
-            android:layout_weight="1"
             app:cardBackgroundColor="@color/light_gray"
             app:cardElevation="0dp"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -141,19 +194,34 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"/>
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_E"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_darkgray"
-            android:layout_weight="1.5"
             android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             card_view:cardCornerRadius="10dp"
             app:cardBackgroundColor="@color/dark_gray"
             app:cardElevation="0dp"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/ll_cv_list">
+            android:layout_weight="1.5"
+            android:layout_marginTop="15dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:layout_gravity="center"/>
 
         </androidx.cardview.widget.CardView>
 
