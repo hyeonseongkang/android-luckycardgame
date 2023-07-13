@@ -57,6 +57,58 @@ class LuckyBoardGameViewModel : ViewModel() {
         val cardList = mutableListOf<Card>()
         this.participans = participantCount
 
+        /*
+        sample Test
+                cardList.add(Card("🐶", 7, false))
+        cardList.add(Card("🐱", 7, false))
+        cardList.add(Card("🐮", 7, false))
+         */
+//        cardList.add(Card("🐶", 1, false))
+//        cardList.add(Card("🐱", 1, false))
+//        cardList.add(Card("🐮", 1, false))
+//        cardList.add(Card("🐶", 2, false))
+//        cardList.add(Card("🐱", 3, false))
+//        cardList.add(Card("🐮", 4, false))
+//        cardList.add(Card("🐮", 5, false))
+//
+//
+//        cardList.add(Card("🐶", 2, false))
+//        cardList.add(Card("🐱", 3, false))
+//        cardList.add(Card("🐮", 4, false))
+//        cardList.add(Card("🐶", 5, false))
+//        cardList.add(Card("🐱", 6, false))
+//        cardList.add(Card("🐮", 7, false))
+//        cardList.add(Card("🐮", 7, false))
+//
+//
+//        cardList.add(Card("🐶", 8, false))
+//        cardList.add(Card("🐱", 8, false))
+//        cardList.add(Card("🐮", 8, false))
+//        cardList.add(Card("🐶", 2, false))
+//        cardList.add(Card("🐱", 3, false))
+//        cardList.add(Card("🐮", 4, false))
+//        cardList.add(Card("🐮", 5, false))
+//
+//
+//        cardList.add(Card("🐶", 6, false))
+//        cardList.add(Card("🐱", 6, false))
+//        cardList.add(Card("🐮", 7, false))
+//        cardList.add(Card("🐶", 9, false))
+//        cardList.add(Card("🐱", 9, false))
+//        cardList.add(Card("🐮", 9, false))
+//        cardList.add(Card("🐮", 10, false))
+//
+//
+//        cardList.add(Card("🐶", 10, false))
+//        cardList.add(Card("🐱", 11, false))
+//        cardList.add(Card("🐮", 11, false))
+//        cardList.add(Card("🐶", 12, false))
+//        cardList.add(Card("🐱", 12, false))
+//        cardList.add(Card("🐮", 12, false))
+//        cardList.add(Card("🐮", 11, false))
+//        cardList.add(Card("🐮", 13, false))
+
+
         // 카드 인스턴스화 및 cardList에 저장 (1-12, type: 🐶)
         for (i in 1..12) {
             if (participantCount == 3 && i == 12) continue
