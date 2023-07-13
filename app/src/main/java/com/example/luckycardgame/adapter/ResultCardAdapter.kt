@@ -3,22 +3,18 @@ package com.example.luckycardgame.adapter
 import android.annotation.SuppressLint
 import android.graphics.Rect
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.luckycardgame.R
 import com.example.luckycardgame.model.Card
 import com.example.luckycardgame.viewmodel.LuckyBoardGameViewModel
 
-class CardAdapter(var owner: String, var cardList: MutableList<Card>, val table: Boolean, private val viewModel: LuckyBoardGameViewModel): RecyclerView.Adapter<CardAdapter.CustomViewHolder>() {
+class ResultCardAdapter(var owner: String, var cardList: MutableList<Card>, val table: Boolean, private val viewModel: LuckyBoardGameViewModel): RecyclerView.Adapter<ResultCardAdapter.CustomViewHolder>() {
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -98,8 +94,7 @@ class CardAdapter(var owner: String, var cardList: MutableList<Card>, val table:
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: CardAdapter.CustomViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: ResultCardAdapter.CustomViewHolder, position: Int) {
         holder.card_number_top.text = cardList.get(position).getCardNumber().toString()
         holder.card_number_bottom.text = cardList.get(position).getCardNumber().toString()
         holder.card_shape.text = cardList.get(position).getCardTypeShape()

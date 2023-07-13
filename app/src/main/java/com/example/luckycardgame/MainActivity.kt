@@ -1,9 +1,11 @@
 package com.example.luckycardgame
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,30 +16,16 @@ import com.example.luckycardgame.`interface`.ResultListener
 import com.example.luckycardgame.model.Card
 import com.example.luckycardgame.viewmodel.LuckyBoardGameViewModel
 
-class MainActivity : AppCompatActivity(), ResultListener {
+class MainActivity : AppCompatActivity() {
 
-    companion object {
-        const val TAG: String = "로그"
-    }
     lateinit var luckyBoardGameViewModel: LuckyBoardGameViewModel
 
     private val overlappingItemDecoration = CardAdapter.OverlappingItemDecoration(-10)
 
-    var cardList = mutableListOf<Card>()
 
     private var mBinding: ActivityMainBinding? = null
 
     private val binding get() = mBinding!!
-
-    fun <T> List<T>.combinations(): List<Pair<T, T>> {
-        val combinations = mutableListOf<Pair<T, T>>()
-        for (i in indices) {
-            for (j in (i + 1) until size) {
-                combinations.add(Pair(this[i], this[j]))
-            }
-        }
-        return combinations
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,40 +34,14 @@ class MainActivity : AppCompatActivity(), ResultListener {
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // resultMap 예시
-//        val resultMap = mutableMapOf(
-//            "A" to listOf(1, 1, 1),
-//            "B" to listOf(3, 3, 3),
-//            "C" to listOf(2, 2, 2),
-//            "D" to listOf(8, 8, 8)
-//        )
-//
-//        val entries = resultMap.entries.toList()
-//
-//        for ((entry1, entry2) in entries.combinations()) {
-//            val (owner1, cards1) = entry1
-//            val (owner2, cards2) = entry2
-//
-//            // 카드 비교 및 결과 출력
-//            if (cards1.all { it == cards2[0] }) {
-//                Log.d("로그", "Cards of $owner1 are all the same as cards of $owner2")
-//            } else {
-//                Log.d("로그", "Cards of $owner1 are all the same as cards of $owner2")
-//            }
-//
-//            // 카드 값 출력
-//            Log.d("로그", "Cards of $owner1: ${cards1.joinToString(", ")}")
-//            Log.d("로그", "Cards of $owner2: ${cards2.joinToString(", ")}")
-//        }
-
         init()
-        initCardList()
         observer()
         toggleButtonClick()
     }
 
     fun init() {
         luckyBoardGameViewModel = ViewModelProvider(this).get(LuckyBoardGameViewModel::class.java)
+        luckyBoardGameViewModel.viewModelInit()
     }
 
     fun toggleButtonClick() {
@@ -168,13 +130,6 @@ class MainActivity : AppCompatActivity(), ResultListener {
         binding.rvTable.layoutManager = layoutManager
     }
 
-    fun initCardList() {
-        for (i in 0 until 12) {
-            cardList.add(Card())
-        }
-
-    }
-
     fun selectParticipants(participants: Int) {
         binding.cvA.visibility = if (participants >= 3) View.VISIBLE else View.GONE
         binding.cvB.visibility = if (participants >= 3) View.VISIBLE else View.GONE
@@ -217,9 +172,10 @@ class MainActivity : AppCompatActivity(), ResultListener {
             }
         }
 
+
         luckyBoardGameViewModel.selectedCards.observe(this) { resultData ->
             resultData.forEach { resultMap ->
-               // Log.d("로그", "hello!@!@")
+                Log.d("로그", "hello!@!@")
                 for ((owner, cards) in resultMap) {
 
                     Log.d("로그", "Owner: $owner")
@@ -236,6 +192,37 @@ class MainActivity : AppCompatActivity(), ResultListener {
                 }
             }
         }
+
+        luckyBoardGameViewModel.replayLiveData.observe(this) { resultData ->
+            if (resultData) {
+                showRestartGameDialog(this,
+                    onRestartClicked = {
+                        selectParticipants(luckyBoardGameViewModel.participans)
+                    },
+                    onCancelClicked = {
+                        restartView()
+                    }
+                )
+
+            }
+        }
+    }
+
+    private fun restartView() {
+        luckyBoardGameViewModel.viewModelInit()
+        binding.rvA.adapter = null
+        binding.rvB.adapter = null
+        binding.rvC.adapter = null
+        binding.rvD.adapter = null
+        binding.rvE.adapter = null
+        binding.rvTable.adapter = null
+
+        binding.btnThreeUser.isChecked = false
+        binding.btnFourUser.isChecked = false
+        binding.btnFiveUser.isChecked = false
+        binding.btnThreeUser.icon = null
+        binding.btnFourUser.icon = null
+        binding.btnFiveUser.icon = null
     }
 
     private fun clearAdapter(owner: String) {
@@ -259,9 +246,17 @@ class MainActivity : AppCompatActivity(), ResultListener {
         super.onDestroy()
     }
 
-    override fun onResultDataSelected(selectedCards: List<Card>) {
-        for (card in selectedCards) {
-            Log.d("로그", card.getCardTypeShape() + " " + card.getCardFront() + " " + card.getCardNumber())
+    fun showRestartGameDialog(context: Context, onRestartClicked: () -> Unit, onCancelClicked: () -> Unit) {
+        val dialogBuilder = AlertDialog.Builder(context)
+        dialogBuilder.setTitle("게임 재시작")
+        dialogBuilder.setMessage("승자가 없습니다. 게임을 다시 시작하시겠습니까?")
+        dialogBuilder.setPositiveButton("예") { dialog, which ->
+            onRestartClicked.invoke()
         }
+        dialogBuilder.setNegativeButton("아니오") { dialog, which ->
+            onCancelClicked.invoke()
+        }
+        val dialog = dialogBuilder.create()
+        dialog.show()
     }
 }
