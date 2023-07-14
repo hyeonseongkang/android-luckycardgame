@@ -1,17 +1,26 @@
 package com.example.luckycardgame.model
 
 class Participant {
-    private val cards = mutableListOf<Card>()
+    private val participantCards = mutableListOf<Card>()
 
     fun addCard(card: Card) {
-        cards.add(card)
+        participantCards.add(card)
     }
 
     fun removeCard(card: Card) {
-        cards.remove(card)
+        participantCards.remove(card)
     }
 
-    fun getCards(): MutableList<Card> {
-        return cards
+    fun retrieveParticipantCards(): MutableList<Card> {
+        return participantCards
+    }
+
+    fun sortCardsByNumber() {
+        participantCards.sortBy { it.number }
+    }
+
+    fun hasThreeOfSameNumber(): Boolean {
+        val cardGroups = participantCards.groupBy { it.type }
+        return cardGroups.any { it.value.size >= 3 }
     }
 }

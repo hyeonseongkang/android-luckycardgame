@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        
+
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -154,19 +154,19 @@ class MainActivity : AppCompatActivity() {
             var cardCount: Int
             for (participant in it) {
                 if (count == 0) {
-                    cardCount = participant.getCards().size
+                    cardCount = participant.retrieveParticipantCards().size
                     initView(cardCount)
                 }
 
                 when(count) {
-                    0 -> binding.rvA.adapter = CardAdapter(participant.getCards(), true, false)
-                    1 -> binding.rvB.adapter = CardAdapter(participant.getCards(), false, false)
-                    2 -> binding.rvC.adapter = CardAdapter(participant.getCards(), false, false)
-                    3 -> binding.rvD.adapter = CardAdapter(participant.getCards(), false, false)
-                    4 -> binding.rvE.adapter = CardAdapter(participant.getCards(), false, false)
+                    0 -> binding.rvA.adapter = CardAdapter(participant.retrieveParticipantCards(), true, false)
+                    1 -> binding.rvB.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
+                    2 -> binding.rvC.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
+                    3 -> binding.rvD.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
+                    4 -> binding.rvE.adapter = CardAdapter(participant.retrieveParticipantCards(), false, false)
                 }
 
-                for (card in participant.getCards()) {
+                for (card in participant.retrieveParticipantCards()) {
                     Log.d(TAG, "Main $count - ${card.getCardNumber()} ${card.getCardTypeShape()}")
                 }
                 count++
@@ -176,13 +176,13 @@ class MainActivity : AppCompatActivity() {
         luckyBoardGameViewModel.tableLiveData.observe(this) {
                 it ->
             var count = 0
-            if (it.getCards().size == 6) {
-                binding.rvTable.adapter = CardAdapter(it.getCards(), false, false)
+            if (it.retrieveTableCards().size == 6) {
+                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), false, false)
             } else {
-                binding.rvTable.adapter = CardAdapter(it.getCards(), false, true)
+                binding.rvTable.adapter = CardAdapter(it.retrieveTableCards(), false, true)
             }
 
-            for (card in it.getCards()) {
+            for (card in it.retrieveTableCards()) {
                 Log.d(TAG, "Main $count - ${card.getCardNumber()} ${card.getCardTypeShape()}")
                 count++
             }
