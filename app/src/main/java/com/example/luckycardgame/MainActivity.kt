@@ -57,7 +57,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.toggleButton.addOnButtonCheckedListener { group, checkedId, isChecked ->
-
             when (checkedId) {
                 R.id.btn_three_user -> {
                     if (isChecked) {
@@ -229,8 +228,6 @@ class MainActivity : AppCompatActivity() {
 
         luckyBoardGameViewModel.selectedCards.observe(this) { resultData ->
             resultData.forEach { resultMap ->
-                Log.d("로그", "hello!@!@")
-
                 luckyBoardGameViewModel.completeParticipants = 0
                 var winners: String = ""
                 for ((owner, cards) in resultMap) {

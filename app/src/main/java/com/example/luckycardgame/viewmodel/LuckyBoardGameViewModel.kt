@@ -20,7 +20,6 @@ class LuckyBoardGameViewModel : ViewModel() {
     private val _resultData = MutableLiveData<MutableList<Map<String, List<Card>>>>()
     private val _showResultData = MutableLiveData<Map<String, List<Card>>>()
 
-
     val selectedCards: MutableLiveData<MutableList<Map<String, List<Card>>>>
         get() = _resultData
 
@@ -56,6 +55,121 @@ class LuckyBoardGameViewModel : ViewModel() {
     fun makeCards(participantCount: Int): List<Card> {
         val cardList = mutableListOf<Card>()
         this.participans = participantCount
+
+
+        if (participantCount == 3) {
+            cardList.add(Card("🐶", 7, false))
+            cardList.add(Card("🐱", 7, false))
+            cardList.add(Card("🐮", 7, false))
+            cardList.add(Card("🐶", 2, false))
+            cardList.add(Card("🐱", 3, false))
+            cardList.add(Card("🐮", 4, false))
+            cardList.add(Card("🐮", 5, false))
+
+
+            cardList.add(Card("🐶", 2, false))
+            cardList.add(Card("🐱", 3, false))
+            cardList.add(Card("🐮", 4, false))
+            cardList.add(Card("🐶", 5, false))
+            cardList.add(Card("🐱", 6, false))
+            cardList.add(Card("🐮", 1, false))
+            cardList.add(Card("🐮", 2, false))
+
+
+            cardList.add(Card("🐶", 8, false))
+            cardList.add(Card("🐱", 8, false))
+            cardList.add(Card("🐮", 8, false))
+            cardList.add(Card("🐶", 2, false))
+            cardList.add(Card("🐱", 3, false))
+            cardList.add(Card("🐮", 4, false))
+            cardList.add(Card("🐮", 5, false))
+
+
+            cardList.add(Card("🐶", 6, false))
+            cardList.add(Card("🐱", 6, false))
+            cardList.add(Card("🐮", 3, false))
+            cardList.add(Card("🐶", 9, false))
+            cardList.add(Card("🐱", 9, false))
+            cardList.add(Card("🐮", 9, false))
+            cardList.add(Card("🐮", 10, false))
+
+
+            cardList.add(Card("🐶", 10, false))
+            cardList.add(Card("🐱", 11, false))
+            cardList.add(Card("🐮", 11, false))
+            cardList.add(Card("🐶", 12, false))
+            cardList.add(Card("🐱", 12, false))
+
+        } else if (participantCount == 4) {
+            cardList.add(Card("🐶", 1, false))
+            cardList.add(Card("🐱", 1, false))
+            cardList.add(Card("🐮", 1, false))
+            cardList.add(Card("🐶", 2, false))
+            cardList.add(Card("🐱", 3, false))
+            cardList.add(Card("🐮", 4, false))
+            cardList.add(Card("🐮", 5, false))
+
+
+            cardList.add(Card("🐶", 2, false))
+            cardList.add(Card("🐱", 3, false))
+            cardList.add(Card("🐮", 4, false))
+            cardList.add(Card("🐶", 5, false))
+            cardList.add(Card("🐱", 6, false))
+            cardList.add(Card("🐮", 7, false))
+            cardList.add(Card("🐮", 7, false))
+
+
+            cardList.add(Card("🐶", 8, false))
+            cardList.add(Card("🐱", 8, false))
+            cardList.add(Card("🐮", 8, false))
+            cardList.add(Card("🐶", 2, false))
+            cardList.add(Card("🐱", 3, false))
+            cardList.add(Card("🐮", 4, false))
+            cardList.add(Card("🐮", 5, false))
+
+
+            cardList.add(Card("🐶", 6, false))
+            cardList.add(Card("🐱", 6, false))
+            cardList.add(Card("🐮", 7, false))
+            cardList.add(Card("🐶", 9, false))
+            cardList.add(Card("🐱", 9, false))
+            cardList.add(Card("🐮", 9, false))
+            cardList.add(Card("🐮", 10, false))
+
+
+            cardList.add(Card("🐶", 10, false))
+            cardList.add(Card("🐱", 11, false))
+            cardList.add(Card("🐮", 11, false))
+            cardList.add(Card("🐶", 12, false))
+            cardList.add(Card("🐱", 12, false))
+            cardList.add(Card("🐮", 12, false))
+            cardList.add(Card("🐮", 11, false))
+            cardList.add(Card("🐮", 13, false))
+        } else if (participantCount == 5) {
+            // 카드 인스턴스화 및 cardList에 저장 (1-12, type: 🐶)
+            for (i in 1..12) {
+                if (participantCount == 3 && i == 12) continue
+                val card = Card("🐶", i, false)
+                cardList.add(card)
+            }
+
+            // 카드 인스턴스화 및 cardList에 저장 (13-24, type: 🐱)
+            for (i in 1..12) {
+                if (participantCount == 3 && i == 12) continue
+                val card = Card("🐱", i, false)
+                cardList.add(card)
+            }
+
+            // 카드 인스턴스화 및 cardList에 저장 (25-36, type: 🐮)
+            for (i in 1..12) {
+                if (participantCount == 3 && i == 12) continue
+                val card = Card("🐮", i, false)
+                cardList.add(card)
+            }
+
+            // cardList 랜덤하게 섞기
+            cardList.shuffle()
+        }
 
         /*
         sample Test
@@ -108,8 +222,7 @@ class LuckyBoardGameViewModel : ViewModel() {
 //        cardList.add(Card("🐮", 11, false))
 //        cardList.add(Card("🐮", 13, false))
 
-
-        // 카드 인스턴스화 및 cardList에 저장 (1-12, type: 🐶)
+//        // 카드 인스턴스화 및 cardList에 저장 (1-12, type: 🐶)
         for (i in 1..12) {
             if (participantCount == 3 && i == 12) continue
             val card = Card("🐶", i, false)
