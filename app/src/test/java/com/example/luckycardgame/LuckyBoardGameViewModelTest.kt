@@ -128,4 +128,74 @@ class LuckyBoardGameViewModelTest {
         assertFalse(cards.any { it.type == "🐮" && it.number == 12 })
     }
 
+    @Test
+    fun testSetResultData_AllCardsAreSeven() {
+        val owner = "A"
+        val cards = listOf(Card("🐶", 7, false), Card("🐱", 7, false), Card("🐮", 7, false)) // cards 변수에 카드 리스트 [Card(7), Card(7), Card(7)] 할당
+
+        viewModel.setResultData(owner, cards)
+
+        val expectedData = mutableListOf(
+            mapOf(owner to cards)
+        )
+
+        assertEquals(expectedData, viewModel.selectedCards.value)
+    }
+
+
+    @Test
+    fun testSetResultData_cardsIsSumAndDifferenceSeven() {
+        val ownerA = "A"
+        val ownerB = "B"
+        val cards1 = listOf(Card("🐶", 2, false), Card("🐱", 4, false), Card("🐮", 6, false))
+        val cards2 = listOf(Card("🐶", 5, false), Card("🐱", 3, false), Card("🐮", 1, false))
+
+        viewModel.participans = 2
+
+        viewModel.setResultData(ownerA, cards1)
+        viewModel.setResultData(ownerB, cards2)
+
+        val expectedData = mutableListOf(
+            mapOf(ownerA to cards1, ownerB to cards2),
+        )
+
+        assertEquals(expectedData, viewModel.selectedCards.value)
+    }
+
+    @Test
+    fun testSetResultData_cardsIsSumAndDifferenceSeven2() {
+        val ownerA = "A"
+        val ownerB = "B"
+        val cards1 = listOf(Card("🐶", 1, false), Card("🐱", 1, false), Card("🐮", 1, false))
+        val cards2 = listOf(Card("🐶", 8, false), Card("🐱", 8, false), Card("🐮", 8, false))
+
+        viewModel.participans = 2
+
+        viewModel.setResultData(ownerA, cards1)
+        viewModel.setResultData(ownerB, cards2)
+
+        val expectedData = mutableListOf(
+            mapOf(ownerA to cards1, ownerB to cards2),
+        )
+
+        assertEquals(expectedData, viewModel.selectedCards.value)
+    }
+
+    @Test
+    fun testSetResultData_cardsIsSumAndDifferenceNotSeven() {
+        val ownerA = "A"
+        val ownerB = "B"
+        val cards1 = listOf(Card("🐶", 1, false), Card("🐱", 1, false), Card("🐮", 1, false))
+        val cards2 = listOf(Card("🐶", 2, false), Card("🐱", 3, false), Card("🐮", 2, false))
+
+        viewModel.participans = 2
+
+        viewModel.setResultData(ownerA, cards1)
+        viewModel.setResultData(ownerB, cards2)
+
+        val expectedData = mutableListOf<Map<String, List<Card>>>()
+
+        assertEquals(expectedData, viewModel.selectedCards.value)
+    }
 }
+

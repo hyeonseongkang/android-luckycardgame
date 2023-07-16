@@ -2,7 +2,7 @@ package com.example.luckycardgame.model
 
 import java.util.Random
 
-class Card(val type: String, var number: Int) {
+class Card(val type: String, var number: Int, var front: Boolean) {
     companion object {
         private val random = Random()
     }
@@ -13,6 +13,14 @@ class Card(val type: String, var number: Int) {
 
     fun getCardNumber(): Int {
         return number
+    }
+
+    fun getCardFront(): Boolean {
+        return front
+    }
+
+    fun setCardFront(front: Boolean) {
+        this.front = front
     }
 
     // 카드 속성 출력 함수
